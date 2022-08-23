@@ -7,30 +7,18 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$x;
 
 public class TransferPage {
-    private static final SelenideElement headingTransferPage = $("[data-test-id=dashboard]+[class*='heading']");
-    private static final SelenideElement fieldAmount = $("[data-test-id=amount] input");
-    private static final SelenideElement fieldFrom = $("[data-test-id=from] input");
-    private static final SelenideElement fieldTo = $("[data-test-id=to] input");
-    private static final SelenideElement buttonAction = $("[data-test-id=action-transfer]");
 
-    public TransferPage() {
-        headingTransferPage.shouldBe(Condition.visible, Duration.ofSeconds(5));
-        headingTransferPage.shouldBe(Condition.text("Пополнение карты"));
-    }
+    private SelenideElement sum = $x(".//span[@data-test-id=\"amount\"]//input");
+    private SelenideElement from = $x(".//span[@data-test-id=\"from\"]//input");
+    private SelenideElement topUp = $("[data-test-id ='action-transfer']");
+    private SelenideElement cancelButton = $("[data-test-id ='action-cancel']");
 
-    static void setAmountValue(int amount) {
-        fieldAmount.clear();
-        fieldAmount.setValue(String.valueOf(amount));
-    }
-
-    static void setFromValue(String cardNumber) {
-        fieldFrom.setValue(cardNumber);
-    }
-
-    public static void doTransfer() {
-        fieldTo.shouldBe(disabled);
-        buttonAction.click();
+    public void doTransfer(int amount, String cardNumber) {
+        sum.setValue(String.valueOf(amount));
+        from.setValue(cardNumber);
+        topUp.click();
     }
 }

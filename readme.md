@@ -1,1 +1,1 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/9eunxm8wnmvd12yt/branch/master?svg=true)](https://ci.appveyor.com/project/AlinaNabi/aqa-2-4-bdd/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/ees61q2df5ohxqe5/branch/master?svg=true)](https://ci.appveyor.com/project/AlinaNabi/aqa-2-4-bdd-bf34n/branch/master)
