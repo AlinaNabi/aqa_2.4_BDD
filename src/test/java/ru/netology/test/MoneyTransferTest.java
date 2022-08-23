@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MoneyTransferTest {
 
+
     @BeforeEach
     public void auth() {
         open("http://localhost:9999/");
@@ -56,6 +57,22 @@ public class MoneyTransferTest {
 
         assertEquals(cardExpectedRecipient, expectedRecipient);
         assertEquals(cardExpectedSender, expectedSender);
-
     }
+    @Test
+    public void shouldMoneyCard0001toCard002() {
+
+        DashboardPage dashboardPage = new DashboardPage();
+        TransferPage transferPage = dashboardPage.openTransferForm(0);
+        transferPage.doTransfer(10000, "5559 0000 0000 0002");
+
+        int expectedRecipient = dashboardPage.getFirstCardBalance();
+        int expectedSender = dashboardPage.getSecondCardBalance();
+
+        int cardExpectedRecipient = 30100;
+        int cardExpectedSender = -10100;
+
+        assertEquals(cardExpectedRecipient, expectedRecipient);
+        assertEquals(cardExpectedSender, expectedSender);
+    }
+
 }
