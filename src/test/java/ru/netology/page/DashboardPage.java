@@ -13,8 +13,9 @@ import static com.codeborne.selenide.Selenide.$$;
 
 public class DashboardPage {
     private final SelenideElement headingDashboard = $("[data-test-id=dashboard]+[class*='heading']");
-    private static final ElementsCollection cardList = $$(".list .list__item");
-    private final SelenideElement buttonActionReload = $("[data-test-id=action-reload]");
+    private ElementsCollection cardList = $$(".list .list__item");
+    private static SelenideElement firstCardButton = $("[data-test-id='92df3f1c-a033-48e6-8390-206f6b1f56c0'] .button");
+    private static SelenideElement secondCardButton = $("[data-test-id='0f3f5c2a-249e-4c3d-8287-09f7a039391d'] .button");
 
     private final String balanceStart = "баланс: ";
     private final String balanceFinish = " р.";
@@ -23,9 +24,14 @@ public class DashboardPage {
     public DashboardPage() {
     }
 
-    public TransferPage openTransferForm(int cardNumber) {
-    cardList.get(cardNumber).click();
-       return new TransferPage();
+    public static TransferPage firstButtonAction() {
+        firstCardButton.click();
+        return new TransferPage();
+    }
+
+    public static TransferPage secondButtonAction() {
+        secondCardButton.click();
+        return new TransferPage();
     }
 
     public int getFirstCardBalance() {
@@ -33,7 +39,7 @@ public class DashboardPage {
         return extractBalance(text);
     }
 
-    public  int getSecondCardBalance() {
+    public int getSecondCardBalance() {
         val text = cardList.last().text();
         return extractBalance(text);
     }
