@@ -28,10 +28,6 @@ public class TransferPage {
     }
 
     public static void errorLimit() {
-        $(".notification__content").should(Condition.exactText("Ошибка"));
-    }
-
-    public static void invalidCard() {
-        $(".notification__content").should(Condition.text("Ошибка! Произошла ошибка"));
+        $(".notification__content").should(Condition.exactText("Ошибка!"));
     }
 }
