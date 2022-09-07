@@ -6,14 +6,19 @@ import org.junit.jupiter.api.Test;
 import ru.netology.data.DataHelper;
 import ru.netology.page.DashboardPage;
 import ru.netology.page.LoginPage;
+import ru.netology.page.TransferPage;
 import ru.netology.page.VerificationPage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.netology.data.DataHelper.getSecondCardNumber;
 import static ru.netology.page.DashboardPage.firstButtonAction;
+import static ru.netology.page.DashboardPage.secondButtonAction;
 
 public class MoneyTransferTest {
+
+     DataHelper.AuthInfo authInfo;
+     DashboardPage dashboardPage;
 
 
     @BeforeEach
@@ -29,10 +34,11 @@ public class MoneyTransferTest {
     @Test
     public void shouldTransferMoneyCard0001toCard002() {
         int amount = 100;
-        DashboardPage dashboardPage = new DashboardPage();
+        val DashboardPage = new DashboardPage();
         val firstCardBalanceStart = dashboardPage.getFirstCardBalance();
         val secondCardBalanceStart = dashboardPage.getSecondCardBalance();
-        var transferPage = firstButtonAction();
+        val transferPage = firstButtonAction();
+        transferPage.doTransfer(amount, getSecondCardNumber());
 
         val expectedRecipient = firstCardBalanceStart + amount;
         val expectedSender = secondCardBalanceStart - amount;
@@ -41,37 +47,31 @@ public class MoneyTransferTest {
         assertEquals(expectedSender, dashboardPage.getSecondCardBalance());
     }
 
-//    @Test
-//    public void shouldTransferFromCard0002toCard001() {
-//
-//        DashboardPage dashboardPage = new DashboardPage();
-//        TransferPage transferPage = dashboardPage.openTransferForm(1);
-//        transferPage.doTransfer(100, "5559 0000 0000 0001");
-//
-//        int expectedRecipient = dashboardPage.getFirstCardBalance();
-//        int expectedSender = dashboardPage.getSecondCardBalance();
-//
-//        int cardExpectedRecipient = 10000;
-//        int cardExpectedSender = 10000;
-//
-//        assertEquals(cardExpectedRecipient, expectedRecipient);
-//        assertEquals(cardExpectedSender, expectedSender);
-//    }
-//    @Test
-//    public void shouldMoneyCard0001toCard002() {
-//
-//        DashboardPage dashboardPage = new DashboardPage();
-//        TransferPage transferPage = dashboardPage.openTransferForm(0);
-//        transferPage.doTransfer(10000, "5559 0000 0000 0002");
-//
-//        int expectedRecipient = dashboardPage.getFirstCardBalance();
-//        int expectedSender = dashboardPage.getSecondCardBalance();
-//
-//        int cardExpectedRecipient = 30100;
-//        int cardExpectedSender = -10100;
-//
-//        assertEquals(cardExpectedRecipient, expectedRecipient);
-//        assertEquals(cardExpectedSender, expectedSender);
-//    }
+    @Test
+    public void shouldTransferFromCard0002toCard001() {
 
+        int amount = 2000;
+        val DashboardPage = new DashboardPage();
+        val firstCardBalanceStart = dashboardPage.getFirstCardBalance();
+        val secondCardBalanceStart = dashboardPage.getSecondCardBalance();
+        val transferPage = firstButtonAction();
+        transferPage.doTransfer(amount, getSecondCardNumber());
+
+        val expectedRecipient = firstCardBalanceStart + amount;
+        val expectedSender = secondCardBalanceStart - amount;
+
+        assertEquals(expectedRecipient, dashboardPage.getFirstCardBalance());
+        assertEquals(expectedSender, dashboardPage.getSecondCardBalance());
+   }
+    @Test
+    public void shouldTransferExceedCardBalance() {
+        int amount = 30000;
+        val dashboardPage = new DashboardPage();
+        val firstCardBalanceStart = DashboardPage.getFirstCardBalance();
+        val secondCardBalanceStart = DashboardPage.getSecondCardBalance();
+        val transferPage = secondButtonAction();
+        transferPage.doTransfer(amount, getSecondCardNumber());
+        TransferPage.errorLimit();
+
+    }
 }

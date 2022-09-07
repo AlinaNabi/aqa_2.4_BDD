@@ -8,8 +8,8 @@ public class DataHelper {
 
     @Value
     public static class AuthInfo {
-        String login;
-        String password;
+        private String login;
+        private String password;
     }
 
     public static AuthInfo getAuthInfo() {
@@ -27,14 +27,13 @@ public class DataHelper {
 
     @Value
     public static class CardNumber {
-        String cardNumber;
+       private String card;
+    }
+    public static CardNumber getFirstCardNumber() {
+        return new CardNumber("5559 0000 0000 0001");
     }
 
-    public static String getFirstCardNumber() {
-        return "5559 0000 0000 0001";
-    }
-
-    public static String getSecondCardNumber() {
-        return "5559 0000 0000 0002";
+    public static CardNumber getSecondCardNumber() {
+        return new CardNumber("5559 0000 0000 0002");
     }
 }
